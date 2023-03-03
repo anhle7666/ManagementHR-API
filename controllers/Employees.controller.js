@@ -1,37 +1,22 @@
-const employeeSchema = new mongoose.Schema({
-    id: String,
-    personalInfo: {
-        name: String,
-        avatar: String,
-        dob: String,
-        gender: String,
-        cmnd: String,
-        address: String,
-        phone: String,
-        email: String,
-        nationality: String,
-        maritalStatus: String,
-    },
-    jobInfo: {
-        idEmployee: String,
-        department: String,
-        position: String,
-        salary: Number,
-        jobStatus: Boolean,
-    },
-    educationInfo: {
-        degree: String,
-        major: String,
-        university: String,
-        graduationYear: String,
-        educationLevel: String,
-    },
-    trainingInfo: [
-        {
-            name: String,
-            institution: String,
-            startDate: String,
-            endDate: String,
-        },
-    ],
-});
+const Employee = require('../models/Employees.js')
+
+exports.AddNewEmployee = async (EmployeeData) => {
+    try {
+        const employee = new Employee(EmployeeData);
+
+        const addNewEmployee = await employee.save();
+
+        // console.log(`Saved : ${addNewEmployee}`);
+
+        return addNewEmployee.id;
+    } catch (error) {
+        console.error(`Error to adding employee ${error}`);
+        throw error;
+    }
+}
+
+
+exports.getAllEmployee = async () => {
+  const employees = await Employee.find();
+  return employees;
+};

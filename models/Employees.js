@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 const employeeSchema = new mongoose.Schema({
     id: String,
     personalInfo: {
@@ -35,3 +37,9 @@ const employeeSchema = new mongoose.Schema({
         },
     ],
 });
+
+
+
+const Employee = mongoose.model('Employees', employeeSchema);
+
+module.exports = Employee;

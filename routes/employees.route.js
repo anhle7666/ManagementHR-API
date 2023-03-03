@@ -1,12 +1,22 @@
 const express = require("express");
 const AppRouter = express.Router();
+const EmployeeController = require('../controllers/Employees.controller.js')
 
 AppRouter.get("/", (req, res) => {
     res.json({ message: "Welcome to API Management Human Resouces" });
 });
+
+
 // Get all users
-AppRouter.get("/users", (req, res) => {
-    res.json(users);
+AppRouter.get("/employees", async (req, res, next) => {
+
+    try {
+
+        const allEmloyees = await EmployeeController.getAllEmployee();
+        res.json(allEmloyees);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Get a single user
@@ -20,12 +30,18 @@ AppRouter.get("/users/:id", (req, res) => {
     }
 });
 
-// Create a new user
-AppRouter.post("/users", (req, res) => {
+//Add a new Employee
+AppRouter.post("/employees", async (req, res, next) => {
+  try {
     const user = req.body;
-    users.push(user);
-    res.json(user);
+    const result = await EmployeeController.AddNewEmployee(user);
+    res.json(`Post Success ${result}`);
+  } catch (error) {
+    // Pass the error to the next middleware
+    next(error);
+  }
 });
+
 
 // Update a user
 AppRouter.put("/users/:id", (req, res) => {

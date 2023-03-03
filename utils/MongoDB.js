@@ -1,12 +1,16 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
 
 class MongoDB {
     static connect = async (uri) => {
         //nếu tồn tại client thì trả về
         if (this.client) return this.client;
-        this.client = await MongoClient.connect(uri);
+        this.client = await mongoose.connect(uri, { useNewUrlParser: true });
         return this.client;
     };
+
+    static disconnect = async () => {
+        mongoose.disconnect();
+    }
 }
 
 
