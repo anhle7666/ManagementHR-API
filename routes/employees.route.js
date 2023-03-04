@@ -33,8 +33,8 @@ AppRouter.get("/users/:id", (req, res) => {
 //Add a new Employee
 AppRouter.post("/employees", async (req, res, next) => {
   try {
-    const user = req.body;
-    const result = await EmployeeController.AddNewEmployee(user);
+    const employee = req.body;
+    const result = await EmployeeController.AddNewEmployee(employee);
     res.json(`Post Success ${result}`);
   } catch (error) {
     // Pass the error to the next middleware

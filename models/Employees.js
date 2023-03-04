@@ -1,4 +1,11 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+
+const counterSchema = new mongoose.Schema({
+    _id: { type: String, required: true },
+    count: { type: Number, default: 1 },
+});
+
+const Counter = mongoose.model("Counter", counterSchema);
 
 const employeeSchema = new mongoose.Schema({
     id: String,
@@ -38,8 +45,18 @@ const employeeSchema = new mongoose.Schema({
     ],
 });
 
+employeeSchema.pre("save", async function (next) {
+    const doc = this;
+    const counter = await Counter.findByIdAndUpdate(
+        { _id: "employeeId" },
+        { $inc: { count: 1 } },
+        { new: true, upsert: true },
+    );
 
+    doc.id = counter.count;
+    next();
+});
 
-const Employee = mongoose.model('Employees', employeeSchema);
+const Employee = mongoose.model("Employees", employeeSchema);
 
 module.exports = Employee;

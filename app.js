@@ -5,6 +5,13 @@ const ApiError = require("./API-Error");
 const app = express();
 app.use(express.json());
 
+//accept all domain
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
+
 app.use("/", AppRouter);
 
 //Error
